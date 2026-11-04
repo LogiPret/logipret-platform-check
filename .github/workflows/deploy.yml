@@ -34,14 +34,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Deploy the tested main branch
+      - name: Deploy validated main branch
         env:
           COOLIFY_URL: ${{ vars.COOLIFY_URL }}
           COOLIFY_APP_UUID: ${{ vars.COOLIFY_APP_UUID }}
           COOLIFY_DEPLOY_TOKEN: ${{ secrets.COOLIFY_DEPLOY_TOKEN }}
         run: |
           test -n "$COOLIFY_DEPLOY_TOKEN"
-          curl --fail-with-body --silent --show-error --max-time 60 \
+          curl --fail-with-body --silent --show-error --max-time 60 --request POST \
             --header "Authorization: Bearer $COOLIFY_DEPLOY_TOKEN" \
-            --get --data-urlencode "uuid=$COOLIFY_APP_UUID" \
+            --header "Content-Type: application/json" \
+            --data "{\"uuid\":\"$COOLIFY_APP_UUID\"}" \
             "$COOLIFY_URL/api/v1/deploy"
