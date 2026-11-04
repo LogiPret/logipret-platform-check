@@ -5,7 +5,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 
 def handler(token):
